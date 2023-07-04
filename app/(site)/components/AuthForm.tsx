@@ -59,7 +59,18 @@ const AuthForm = (props: Props) => {
 
       if (variant === 'LOGIN') {
         // NextAuth signin
-        
+        signIn('credentials', {
+          ...data,
+          redirect: false,
+        }).then((callback) => {
+          if (callback?.error) {
+            toast.error('Invalid credentials');
+          }
+
+          if (callback?.ok && !callback?.error) {
+            toast.success('You have successfully log in');
+          }
+        });
       }
     } catch (error: any) {
       toast.error(error.response.data.error || 'Something went wrong');
@@ -71,7 +82,24 @@ const AuthForm = (props: Props) => {
   const socialAction = (action: string) => {
     setIsLoading(true);
     // NextAuth social sign in
-    setIsLoading(false);
+    try {
+      signIn(action, {
+        // callbackUrl: `${window.location.origin}/dashboard`,
+        redirect: false,
+      }).then((callback) => {
+        if (callback?.error) {
+          toast.error('Something went wrong');
+        }
+
+        if (callback?.ok && !callback?.error) {
+          toast.success('You have successfully log in');
+        }
+      });
+    } catch (error: any) {
+      toast.error(error.message || 'Something went wrong');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   let formContent;
