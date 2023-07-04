@@ -23,17 +23,16 @@ export const authOptions: AuthOptions = {
       credentials: {
         email: { label: 'email', type: 'text' },
         password: { label: 'password', type: 'password' },
-        username: { label: 'username', type: 'text', placeholder: 'devProMaleek07' },
       },
 
       async authorize(credentials) {
-        if (!credentials?.email || !credentials.password || !credentials?.username) {
+        if (!credentials?.email || !credentials.password) {
           throw new Error('Invalid Credentials');
         }
 
         const user = await prisma.user.findFirst({
           where: {
-            OR: [{ email: credentials.email }, { username: credentials.username }],
+            OR: [{ email: credentials.email }, { username: credentials.email }],
           },
         });
 
