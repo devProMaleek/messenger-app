@@ -6,6 +6,10 @@ import { useForm, FieldValues, SubmitHandler } from 'react-hook-form';
 import AuthSocialButton from './AuthSocialButton';
 import { BsGithub, BsGoogle } from 'react-icons/bs';
 import { FcGoogle } from 'react-icons/fc';
+import axios from 'axios';
+import toast from 'react-hot-toast';
+import { useRouter } from 'next/navigation';
+import { signIn } from 'next-auth/react';
 
 type Props = {};
 type Variant = 'LOGIN' | 'REGISTER';
@@ -18,6 +22,7 @@ const defaultValues = {
 };
 
 const AuthForm = (props: Props) => {
+  const router = useRouter();
   const [variant, setVariant] = useState<Variant>('LOGIN');
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [showPassword, setShowPassword] = useState<boolean>(false);
@@ -37,19 +42,30 @@ const AuthForm = (props: Props) => {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<FieldValues>({ defaultValues });
 
-  const onSubmit: SubmitHandler<FieldValues> = (data) => {
+  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     setIsLoading(true);
-    if (variant === 'REGISTER') {
-      // Axios Register endpoint
-    }
 
-    if (variant === 'LOGIN') {
-      // NextAuth signin
+    try {
+      if (variant === 'REGISTER') {
+        // Axios Register endpoint
+        const response = await axios.post('/api/register', data);
+        toast.success(response.data.message || 'Successfully Registration');
+        reset(defaultValues);
+      }
+
+      if (variant === 'LOGIN') {
+        // NextAuth signin
+        
+      }
+    } catch (error: any) {
+      toast.error(error.response.data.error || 'Something went wrong');
+    } finally {
+      setIsLoading(false);
     }
-    setIsLoading(false);
   };
 
   const socialAction = (action: string) => {
@@ -124,7 +140,9 @@ const AuthForm = (props: Props) => {
           </div>
 
           <div className="flex justify-center gap-2 px-2 mt-6 text-sm text-gray-500">
-            <div className="font-semibold">{variant === 'LOGIN' ? 'New to Messenger?' : 'Already have an account?'}</div>
+            <div className="font-semibold">
+              {variant === 'LOGIN' ? 'New to Messenger?' : 'Already have an account?'}
+            </div>
             <div className="font-medium underline cursor-pointer" onClick={toggleVariant}>
               {variant === 'LOGIN' ? 'Create an account' : 'Login'}
             </div>
