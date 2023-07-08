@@ -1,7 +1,7 @@
 'use client';
 import Button from '@/app/components/Button';
 import Input from '@/app/components/Inputs/Input';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useForm, FieldValues, SubmitHandler } from 'react-hook-form';
 import AuthSocialButton from './AuthSocialButton';
 import { BsGithub, BsGoogle } from 'react-icons/bs';
@@ -9,7 +9,7 @@ import { FcGoogle } from 'react-icons/fc';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
-import { signIn } from 'next-auth/react';
+import { signIn, useSession } from 'next-auth/react';
 
 type Props = {};
 type Variant = 'LOGIN' | 'REGISTER';
@@ -23,9 +23,17 @@ const defaultValues = {
 
 const AuthForm = (props: Props) => {
   const router = useRouter();
+  const session = useSession();
   const [variant, setVariant] = useState<Variant>('LOGIN');
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [showPassword, setShowPassword] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (session?.status === 'authenticated') {
+      console.log('Authenticated')
+      router.push('/users');
+    }
+  }, [session?.status, router]);
 
   const toggleShowPassword = () => {
     setShowPassword(!showPassword);
@@ -53,6 +61,7 @@ const AuthForm = (props: Props) => {
       if (variant === 'REGISTER') {
         // Axios Register endpoint
         const response = await axios.post('/api/register', data);
+        signIn('credentials', data);
         toast.success(response.data.message || 'Successfully Registration');
         reset(defaultValues);
       }
@@ -69,6 +78,7 @@ const AuthForm = (props: Props) => {
 
           if (callback?.ok && !callback?.error) {
             toast.success('You have successfully log in');
+            router.push('/users');
           }
         });
       }
