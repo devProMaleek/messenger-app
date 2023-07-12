@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import EmptyState from '../components/EmptyState';
 
 interface UserProps {
-  propName: string;
 }
 export default function User({}: UserProps) {
 
