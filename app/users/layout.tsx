@@ -8,7 +8,6 @@ export const metadata: Metadata = {
 export default async function UsersLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="h-full">
-      {/* @ts-expect-error Server Component */}
       <Sidebar>{children}</Sidebar>
     </div>
   );
