@@ -26,12 +26,6 @@ const useRoutes = () => {
         isActive: pathname === '/users',
       },
       {
-        label: 'Settings',
-        icon: IoMdSettings,
-        href: '/settings',
-        isActive: pathname === '/settings',
-      },
-      {
         label: 'Logout',
         href: '#',
         icon: HiArrowLeftOnRectangle,
