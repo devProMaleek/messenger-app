@@ -12,7 +12,7 @@ export default async function getCurrentUser() {
 
     const currentUser = await prisma.user.findFirst({
       where: {
-        OR: [{ email: session.user.email }, { username: session.user.email }],
+        OR: [{ email: session.user.email as string }, { username: session.user.email as string }],
       },
     });
 
