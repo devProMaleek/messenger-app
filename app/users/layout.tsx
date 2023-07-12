@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import Sidebar from '../components/Sidebar/Sidebar';
 
-export const metadata = {
+export const metadata: Metadata = {
   title: 'Users',
   description: 'SEO Title',
 };
