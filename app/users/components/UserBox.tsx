@@ -22,7 +22,7 @@ export default function UserBox({ data }: UserBoxProps) {
       });
 
       if (response) {
-        router.push(`/conversations/${response.data.id}`);
+        router.push(`/conversations/${response.data.data.id}`);
       }
     } catch (error: any) {
       console.error(error, 'LOAD_CONVERSATION_ERROR');
