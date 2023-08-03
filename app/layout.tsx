@@ -6,7 +6,7 @@ import AuthContext from './context/AuthContext';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata = {
-  title: 'Messenger App',
+  title: 'Messenger App - Login Page',
   description: 'This is an app created by Abdulmalik Adebayo (devProMaleek)',
 };
 

@@ -31,7 +31,7 @@ const DesktopSidebar = ({ currentUser }: Props) => {
         </nav>
         <nav className="flex flex-col items-center justify-between mt-4">
           <div onClick={() => setIsOpen(true)} className="transition cursor-pointer hover:opacity-75">
-            <Avatar user={currentUser} />
+            <Avatar user={currentUser} active />
           </div>
         </nav>
       </div>
