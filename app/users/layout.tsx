@@ -4,7 +4,7 @@ import getUsers from '../actions/getUsers';
 import UserList from './components/UserList';
 
 export const metadata: Metadata = {
-  title: 'Users',
+  title: 'Messenger App - Users Page',
   description: 'SEO Title',
 };
 export default async function UsersLayout({ children }: { children: React.ReactNode }) {
